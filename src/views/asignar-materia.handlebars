@@ -1,0 +1,22 @@
+<h1>Asignar Materia a Tarea</h1>
+
+<form action="/asignar-materia" method="POST">
+  <div>
+    <label for="tareaId">ID de la Tarea:</label>
+    <input type="text" id="tareaId" name="tareaId" required>
+  </div>
+  
+  <div>
+    <label for="materiaId">Seleccionar Materia:</label>
+    <select id="materiaId" name="materiaId" required>
+      <option value="">Seleccione una materia</option>
+      {{#each materias}}
+        <option value="{{this._id}}">{{this.nombre}}</option>
+      {{/each}}
+    </select>
+  </div>
+  
+  <button type="submit">Asignar Materia</button>
+</form>
+
+<a href="/">Volver a la lista de tareas</a>

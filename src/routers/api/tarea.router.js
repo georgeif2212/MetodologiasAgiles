@@ -8,6 +8,15 @@ router.get('/', (req, res) => {
   res.render('tareas'); // Renderiza la vista de tareas
 });
 
+router.get('/asignar-materia', async (req, res, next) => {
+  try {
+    const materias = await MateriaModel.find({});
+    res.render('asignar-materia', { materias });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Obtener todas las tareas
 router.get('/tareas', async (req, res, next) => {
   try {
@@ -81,6 +90,29 @@ router.delete('/tareas/:tid', async (req, res, next) => {
     const { params: { tid } } = req;
     await TareaModel.deleteOne({ _id: tid });
     res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/asignar-materia', async (req, res, next) => {
+  try {
+    const { tareaId, materiaId } = req.body;
+    
+    const tarea = await TareaModel.findById(tareaId);
+    if (!tarea) {
+      return res.status(404).render('error', { message: 'Tarea no encontrada' });
+    }
+
+    const materia = await MateriaModel.findById(materiaId);
+    if (!materia) {
+      return res.status(404).render('error', { message: 'Materia no encontrada' });
+    }
+
+    tarea.materia = materiaId;
+    await tarea.save();
+
+    res.redirect('/');
   } catch (error) {
     next(error);
   }
