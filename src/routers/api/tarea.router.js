@@ -3,6 +3,10 @@ import TareaModel from '../../models/tarea.model.js';
 
 const router = Router();
 
+router.get('/', (req, res) => {
+  res.render('tareas'); // Renderiza la vista de tareas
+});
+
 // Obtener todas las tareas
 router.get('/tareas', async (req, res, next) => {
   try {

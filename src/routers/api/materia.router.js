@@ -3,6 +3,10 @@ import MateriaModel from '../../models/materia.model.js';
 
 const router = Router();
 
+router.get('/', (req, res) => {
+  res.render('materias'); // Renderiza la vista de tareas
+});
+
 // Obtener todas las materias
 router.get('/materias', async (req, res, next) => {
     try {
