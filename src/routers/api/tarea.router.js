@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import TareaModel from '../../models/tarea.model.js';
+import MateriaModel from '../../models/materia.model.js'; 
 
 const router = Router();
 
@@ -35,6 +36,10 @@ router.get('/tareas/:tid', async (req, res, next) => {
 router.post('/tareas', async (req, res, next) => {
   try {
     const { body } = req;
+    // Si no se proporciona una materia, no la incluimos en el objeto
+    if (!body.materia) {
+      delete body.materia;
+    }
     const tarea = await TareaModel.create(body);
     res.status(201).json(tarea);
   } catch (error) {
@@ -46,8 +51,25 @@ router.post('/tareas', async (req, res, next) => {
 router.put('/tareas/:tid', async (req, res, next) => {
   try {
     const { body, params: { tid } } = req;
-    await TareaModel.updateOne({ _id: tid }, { $set: body });
-    res.status(204).end();
+    
+    // Si se proporciona un nombre de materia, buscamos la materia por su nombre
+    if (body.nombreMateria) {
+      const materia = await MateriaModel.findOne({ nombre: body.nombreMateria });
+      if (materia) {
+        body.materia = materia._id; // Asignamos el ID de la materia encontrada
+      } else {
+        return res.status(404).json({ message: `Materia "${body.nombreMateria}" no encontrada.` });
+      }
+      delete body.nombreMateria; // Eliminamos el campo nombreMateria del body
+    }
+
+    const tareaActualizada = await TareaModel.findByIdAndUpdate(tid, body, { new: true });
+    
+    if (!tareaActualizada) {
+      return res.status(404).json({ message: `Tarea con id ${tid} no encontrada.` });
+    }
+
+    res.status(200).json(tareaActualizada);
   } catch (error) {
     next(error);
   }
