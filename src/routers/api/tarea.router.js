@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
 router.get('/asignar-materia', async (req, res, next) => {
   try {
-    const materias = await MateriaModel.find({});
+    const materias = await MateriaModel.find();
     res.render('asignar-materia', { materias });
   } catch (error) {
     next(error);
@@ -24,7 +24,6 @@ router.get('/alta', async (req, res, next) => {
     next(error);
   }
 });
-
 
 // Obtener todas las tareas
 router.get('/tareas', async (req, res, next) => {
@@ -55,15 +54,11 @@ router.post('/tareas', async (req, res, next) => {
   try {
     const { body } = req;
     // Si no se proporciona una materia, no la incluimos en el objeto
-    // if (!body.materia) {
-    //   delete body.materia;
-    // }
+    if (!body.materia) {
+      delete body.materia;
+    }
     const tarea = await TareaModel.create(body);
-    res.status(201).render('tarea-creada-exitosa', {
-      title: "Tarea creada",
-      tarea: {...tarea.toObject()} 
-    });
-
+    res.status(201).json(tarea);
   } catch (error) {
     next(error);
   }
