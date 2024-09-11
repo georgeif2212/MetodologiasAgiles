@@ -17,6 +17,15 @@ router.get('/asignar-materia', async (req, res, next) => {
   }
 });
 
+router.get('/alta', async (req, res, next) => {
+  try {
+    res.render('alta-tarea');
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 // Obtener todas las tareas
 router.get('/tareas', async (req, res, next) => {
   try {
