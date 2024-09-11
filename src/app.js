@@ -5,7 +5,7 @@ import path from 'path';
 import indexRouter from './routers/views/index.router.js';
 import usersRouter from './routers/api/users.router.js';
 import tareasRouter from './routers/api/tarea.router.js';
-import marteriasRouter from './routers/api/materia.router.js';
+import materiasRouter from './routers/api/materia.router.js';
 
 import { __dirname } from './utils.js';
 
@@ -22,7 +22,7 @@ app.use('/', indexRouter);
 app.use('/api', usersRouter);
 
 app.use('/tareas', tareasRouter);
-app.use('/materias', marteriasRouter);
+app.use('/materias', materiasRouter);
 
 app.use((error, req, res, next) => {
   const message = `Ah ocurrido un error desconocido 😨: ${error.message}`;
