@@ -10,8 +10,9 @@ router.get('/', (req, res) => {
 
 router.get('/asignar-materia', async (req, res, next) => {
   try {
-    const materias = await MateriaModel.find();
-    res.render('asignar-materia', { materias });
+    const materias = await MateriaModel.find({});
+    const materiasPlanas = materias.map(materia => materia.toObject());
+    res.render('asignar-materia', { materias: materiasPlanas });
   } catch (error) {
     next(error);
   }
