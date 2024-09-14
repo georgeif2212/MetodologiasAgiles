@@ -4,7 +4,15 @@ import MateriaModel from '../../models/materia.model.js';
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.render('materias'); // Renderiza la vista de tareas
+  res.render('materias');
+});
+
+router.get('/alta', async (req, res, next) => {
+  try {
+    res.render('alta-materia');
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Obtener todas las materias

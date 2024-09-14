@@ -105,8 +105,6 @@ router.delete('/tareas/:tid', async (req, res, next) => {
 });
 
 router.post('/asignar-materia', async (req, res, next) => {
-  console.log('Recibida solicitud POST en /asignar-materia');
-  console.log('Cuerpo de la solicitud:', req.body);
   try {
     const { tareaId, materiaId } = req.body;
     
