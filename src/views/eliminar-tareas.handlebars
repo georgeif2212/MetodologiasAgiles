@@ -1,0 +1,24 @@
+<h2>Eliminar Tarea</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre de la Tarea</th>
+      <th>Materia</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each tareas}}
+      <tr>
+        <td>{{this.nombre}}</td>
+        <td>{{this.materia.nombre}}</td>
+        <td>
+          <form action="baja/{{this._id}}" method="POST">
+            <button type="submit" class="button-outline">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

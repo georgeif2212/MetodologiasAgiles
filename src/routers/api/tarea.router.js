@@ -18,6 +18,15 @@ router.get('/asignar-materia', async (req, res, next) => {
   }
 });
 
+router.get('/cambiar-estado', async (req, res, next) => {
+  try {
+    const tareas = await TareaModel.find({});
+    res.render('cambiar-estado', { tareas});
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/alta', async (req, res, next) => {
   try {
     res.render('alta-tarea');
@@ -30,7 +39,26 @@ router.get('/alta', async (req, res, next) => {
 router.get('/tareas', async (req, res, next) => {
   try {
     const tareas = await TareaModel.find({}).populate('materia');
-    res.status(200).json(tareas);
+    
+    const tareasPendientes = tareas.filter(tarea => tarea.estado === 'pendiente');
+    const tareasEnProceso = tareas.filter(tarea => tarea.estado === 'en proceso');
+    const tareasRealizadas = tareas.filter(tarea => tarea.estado === 'realizado');
+
+    res.render('consultar-tareas', {
+      tareasPendientes,
+      tareasEnProceso,
+      tareasRealizadas
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/baja', async (req, res, next) => {
+  try {
+    const tareas = await TareaModel.find({}).populate('materia');
+    res.render('eliminar-tareas', { tareas });
   } catch (error) {
     next(error);
   }
@@ -93,12 +121,40 @@ router.put('/tareas/:tid', async (req, res, next) => {
   }
 });
 
-// Eliminar una tarea
-router.delete('/tareas/:tid', async (req, res, next) => {
+//cambiar estado de tarea
+router.post('/cambiar-estado', async (req, res, next) => {
   try {
-    const { params: { tid } } = req;
-    await TareaModel.deleteOne({ _id: tid });
-    res.status(204).end();
+    const { tareaId, nuevoEstado } = req.body;
+
+    if (!tareaId || !nuevoEstado) {
+      return res.status(400).render('error', { message: 'Faltan datos para cambiar el estado de la tarea.' });
+    }
+
+    const tarea = await TareaModel.findById(tareaId);
+    if (!tarea) {
+      return res.status(404).render('error', { message: 'Tarea no encontrada' });
+    }
+
+    tarea.estado = nuevoEstado;
+    await tarea.save();
+
+    res.redirect('/');
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Eliminar una tarea
+router.post('/baja/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const tarea = await TareaModel.findByIdAndDelete(id);
+
+    if (!tarea) {
+      return res.status(404).render('error', { message: 'Tarea no encontrada' });
+    }
+
+    res.redirect('/'); // Redirige de nuevo a la página de eliminar tareas
   } catch (error) {
     next(error);
   }

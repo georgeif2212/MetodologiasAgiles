@@ -15,11 +15,22 @@ router.get('/alta', async (req, res, next) => {
   }
 });
 
+
+router.get('/baja', async (req, res, next) => {
+  try {
+    const materias = await MateriaModel.find({});
+    res.render('eliminar-materias', { materias });
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 // Obtener todas las materias
 router.get('/materias', async (req, res, next) => {
     try {
       const materias = await MateriaModel.find({});
-      res.status(200).json(materias);
+      res.render('consultar-materias', { materias });
     } catch (error) {
       next(error);
     }
@@ -62,11 +73,16 @@ router.get('/materias', async (req, res, next) => {
   });
   
   // Eliminar una materia
-  router.delete('/materias/:mid', async (req, res, next) => {
+  router.post('/baja/:id', async (req, res, next) => {
     try {
-      const { params: { mid } } = req;
-      await MateriaModel.deleteOne({ _id: mid });
-      res.status(204).end();
+      const { id } = req.params;
+      const materia = await MateriaModel.findByIdAndDelete(id);
+  
+      if (!materia) {
+        return res.status(404).render('error', { message: 'Materia no encontrada' });
+      }
+  
+      res.redirect('/'); // Redirige de nuevo a la página de eliminar tareas
     } catch (error) {
       next(error);
     }

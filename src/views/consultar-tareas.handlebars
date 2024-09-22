@@ -1,0 +1,82 @@
+<h2>Consultar Tareas</h2>
+
+<!-- Tabla para tareas Pendientes -->
+<h3>Tareas Pendientes</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Tarea ID</th>
+      <th>Materia</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#if tareasPendientes.length}}
+      {{#each tareasPendientes}}
+        <tr>
+          <td>{{this.nombre}}</td>
+          <td>{{this._id}}</td>
+          <td>{{this.materia.nombre}}</td>
+        </tr>
+      {{/each}}
+    {{else}}
+      <tr>
+        <td colspan="2">No hay tareas pendientes</td>
+      </tr>
+    {{/if}}
+  </tbody>
+</table>
+
+<!-- Tabla para tareas En Proceso -->
+<h3>Tareas En Proceso</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Tarea ID</th>
+      <th>Materia</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#if tareasEnProceso.length}}
+      {{#each tareasEnProceso}}
+        <tr>
+          <td>{{this.nombre}}</td>
+          <td>{{this._id}}</td>
+          <td>{{this.materia.nombre}}</td>
+        </tr>
+      {{/each}}
+    {{else}}
+      <tr>
+        <td colspan="2">No hay tareas en proceso</td>
+      </tr>
+    {{/if}}
+  </tbody>
+</table>
+
+<!-- Tabla para tareas Realizadas -->
+<h3>Tareas Realizadas</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Tarea ID</th>
+      <th>Materia</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#if tareasRealizadas.length}}
+      {{#each tareasRealizadas}}
+        <tr>
+          <td>{{this.nombre}}</td>
+          <td>{{this._id}}</td>
+          <td>{{this.materia.nombre}}</td>
+        </tr>
+      {{/each}}
+    {{else}}
+      <tr>
+        <td colspan="2">No hay tareas realizadas</td>
+      </tr>
+    {{/if}}
+  </tbody>
+</table>

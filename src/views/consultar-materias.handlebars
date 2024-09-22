@@ -1,0 +1,18 @@
+<h2>Lista de Materias (IDs)</h2>
+
+<table>
+  <thead>
+    <tr>
+        <th>Materia</th>
+        <th>ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each materias}}
+      <tr>
+        <td>{{this.nombre}}</td>
+        <td>{{this._id}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

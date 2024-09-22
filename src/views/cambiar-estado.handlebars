@@ -1,0 +1,26 @@
+<h2>Cambiar estado de tarea</h2>
+
+<form action="cambiar-estado" method="POST">
+  <div>
+    <label for="tareaId">Seleccionar Tarea:</label>
+    <select id="tareaId" name="tareaId" required>
+      <option value="">Seleccione una tarea</option>
+      {{#each tareas}}
+        <option value="{{this._id}}">{{this.nombre}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div>
+    <label for="nuevoEstado">Nuevo Estado:</label>
+    <select id="nuevoEstado" name="nuevoEstado" required>
+      <option value="pendiente">Pendiente</option>
+      <option value="en proceso">En Proceso</option>
+      <option value="realizado">Realizado</option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit">Cambiar Estado</button>
+  </div>
+</form>

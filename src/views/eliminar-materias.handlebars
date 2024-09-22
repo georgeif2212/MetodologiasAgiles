@@ -1,0 +1,22 @@
+<h2>Eliminar Materia</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre de la Materia</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each materias}}
+      <tr>
+        <td>{{this.nombre}}</td>
+        <td>
+          <form action="baja/{{this._id}}" method="POST">
+            <button type="submit" class="button-outline">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
